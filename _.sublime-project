@@ -1,0 +1,27 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd": ["gulp", "test"],
+			"name": "Test",
+			"shell": true,
+			"working_dir": "$project_path"
+		},
+		{
+			"cmd": ["gulp", "clean"],
+			"name": "Clean",
+			"shell": true,
+			"working_dir": "$project_path"
+		},
+		{
+			"cmd": ["gulp", "build"],
+			"name": "Build",
+			"shell": true,
+			"working_dir": "$project_path"
+		},
+	],
+	"folders":
+	[
+		{"path": "src"},
+	]
+}

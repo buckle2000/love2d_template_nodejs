@@ -2,9 +2,10 @@ const path = require('path');
 const gulp = require('gulp');
 const fs = require('fs-extra');
 const map = require('map-stream');
-const spawn = require('child_process').spawn;
+const ps = require('child_process');
 const newer = require('gulp-newer');
 const tmp = require('tmp');
+const async = require('async');
 const gutil = require('gulp-util');
 
 const PATH_SRC = 'src/';
@@ -46,19 +47,19 @@ gulp.task('clean', () => fs.remove(PATH_DEST));
 gulp.task('moon', task_builder({
   glob: '**/*.moon',
   ext: '.lua',
-  cb: (src, dest) => spawn('moonc', ['-o', dest, src])
+  cb: (src, dest) => ps.spawn('moonc', ['-o', dest, src])
 }));
 
 gulp.task('tmx', task_builder({
   glob: '**/*.tmx',
   ext: '.lua',
-  cb: (src, dest) => spawn('tiled', ['--export-map', 'lua', src, dest])
+  cb: (src, dest) => ps.spawn('tiled', ['--export-map', 'lua', src, dest])
 }));
 
 gulp.task('ase', task_builder({
   glob: '**/*.ase?(prite)',
   ext: '.png',
-  cb: (src, dest) => spawn('aseprite', ['-b', src, '--save-as', dest])
+  cb: (src, dest) => ps.spawn('aseprite', ['-b', src, '--save-as', dest])
 }));
 
 // just copy
@@ -67,10 +68,29 @@ gulp.task('copy',
   .pipe(newer(PATH_DEST))
   .pipe(gulp.dest(PATH_DEST)));
 
-gulp.task('default', ['copy', 'moon', 'tmx', 'ase']);
-
-gulp.task('build', ['clean'], () => gulp.start('default'));
+gulp.task('build', ['copy', 'moon', 'tmx', 'ase']);
 
 gulp.task('windows', () => {
-  gulp.start()
+  async.series([
+    (cb) => gulp.start('clean', cb),
+    (cb) => gulp.start('build', cb),
+    (cb) => {
+      // TODO
+    }
+  ], (err) => { if (err) throw err; });
 });
+
+gulp.task('run', () => {
+  ps.exec("love build");
+});
+
+async.asyncify()
+gulp.task('test', () => {
+  async.series([
+    // (cb) => gulp.start('clean', cb),
+    (cb) => gulp.start('build', cb),
+    (cb) => gulp.start('run', cb),
+  ], (err) => { if (err) throw err; });
+});
+
+gulp.task('default', ['build']);
