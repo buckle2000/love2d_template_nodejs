@@ -1,0 +1,22 @@
+{
+  "name": "love2d-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "",
+    "publish": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "fs-extra": "^3.0.1",
+    "gulp": "^3.9.1",
+    "gulp-exec": "^2.1.3",
+    "gulp-newer": "^1.3.0",
+    "gulp-util": "^3.0.8",
+    "map-stream": "0.0.7",
+    "tmp": "0.0.31"
+  }
+}
