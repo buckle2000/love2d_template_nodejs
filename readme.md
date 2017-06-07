@@ -6,11 +6,11 @@ a nodejs version of [https://github.com/buckle2000/love_moonscript_template]
 
 In order to build certain file **pattern**, corresponding **program** must be placed in `PATH`.
 
-pattern|program|dest
+pattern|program|destination
 -|-|-
-*.tmx  | tiled       | *.lua
-*.ase  | aseprite    | *.png
-*.moon | moonc  | *.lua
+*.tmx  | [tiled](http://www.mapeditor.org/) | *.lua
+*.ase  | [aseprite](http://aseprite.org/) | *.png
+*.moon | [moonc](http://moonscript.org/) | *.lua
 \*.*   | N/A         | *as-is*
 
 ## What to do
