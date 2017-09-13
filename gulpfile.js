@@ -17,18 +17,15 @@ function task_builder(options) {
       .pipe(map((file, cb) => {
         let src = file.path;
         let src_stats = fs.statSync(src);
-        let relative = path.relative(PATH_SRC, src);
-        let dest = path.join(PATH_DEST, gutil.replaceExtension(relative, options.ext));
+        let src_relative = path.relative(PATH_SRC, src);
+        let dest = path.join(PATH_DEST, gutil.replaceExtension(src_relative, options.ext));
         if (fs.existsSync(dest)) {
           let dest_stats = fs.statSync(dest);
-          let thing2 = src_stats.mtime;
-          let thing = dest_stats.mtime;
-          if (thing2 <= thing)
+          if (src_stats.mtime <= dest_stats.mtime)
             return cb();
         }
         console.log(relative);
         fs.mkdirs(path.dirname(dest), (err) => {
-          if (err) return cb(err);
           if (err) return cb(err);
           let child_process = options.cb(src, dest);
           child_process.on('error', (err) => cb(err));
